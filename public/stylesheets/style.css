@@ -1,0 +1,19 @@
+#messages {
+  margin: 0 0 60px 0;
+}
+
+.message {
+  background: #ddd;
+  padding: 5px;
+  margin: 5px;
+}
+
+form {
+  margin: auto;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+}
+.form-group input {
+  width: 90%;
+}
