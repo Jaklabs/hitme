@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Registration | Hitme Messenger</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/register.css">
+	<!-- Bootstrap -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+	<!-- JQuery -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!-- Axios -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+</head>
+<body>
+	<div class="container">
+	<form>
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input class="form-control" type="text" id="username" placeholder="Enter a unique username">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input class="form-control" type="password" id="password" placeholder="Enter a password">
+		</div>
+		<button class="btn btn-block btn-primary">Create Account</button>
+	</form>
+	</div>
+	<script>
+		$(() => {
+			$('form').submit(() => {
+				var user = {
+					username: $('#username').val(),
+					password: $('#password').val() 
+				};
+				console.log(user);
+				axios.post('/users', user)
+					.then(res => {
+						console.log(res);
+					});
+			});
+		});
+	</script>
+</body>
+</html>
