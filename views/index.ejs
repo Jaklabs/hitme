@@ -4,6 +4,7 @@
   <title>Hitme Messenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+  <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script> -->
   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
   <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -11,69 +12,64 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
   <!-- Axios -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+  <style>
+    header {
+     background: #f80;
+     color: white;
+    }
+    header #title {
+      display: inline;
+    }
+    header nav {
+      display: inline;
+    }
+    #createChat {
+      border-radius: 50%;
+      background-color: #f80;
+      
+      position: fixed;
+      bottom: 5%;
+      right: 5%;
+    }
+    #createChat a {
+      height: 60px;
+      width: 60px;
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      color: #fff;
+      font-size: 36px;
+    }
+  </style>
 </head>
 <body>
-  <div id="messages"></div>
-  <form>
-    <div class="form-group">
-      <div class="input-group">
-        <input class="form-control" placeholder="Write a message">
-        <button class="btn btn-primary" type="submit" id="send">Send</button>
-      </div>
-    </div>
-  </form>
-  <!-- <button class="btn btn-danger" id="clear">Clear</button> -->
-
+  <header>
+    <h3 id="title">Hitme Messenger</h3>
+    <nav>
+      <a href="/auth/logout">Logout</a>
+    </nav>
+    
+  </header>
+  <div class="list-group">
+  </div>
+  <div id="createChat"><a href="/new"><span>+</span></a></div>
   <script>
-    var chatStream = [];
-
-    const displayMessages = (messages) => {
-      console.log("Displaying messages!");
-      for (var i in messages) {
-        $('#messages').append(`<div class="message"><b>${messages[i].author}</b>: ${messages[i].content}</div>`);
-      }
+    const displayChats = (chats) => {
+      chats.forEach(chat => {
+        $('.list-group').append(`<div class="list-group-item">${chat.name}</div>`)
+      });
     }
 
-    $(document).ready(() => {
-      const socket = io(); // Initialize Socket.IO instance
-
-      // GET messages from chat database
+    const chatList = [
+      {name: 'Squad Chat'},
+      {name: 'Homies R Us'}
+    ];
+    $(() => {
       axios.get('/chats')
-        .then(res => {
+        .then((res) => {
           console.log(res);
-          displayMessages(res.data);
+          displayChats(chatList);
         });
-
-      // Form submit handler:
-      $('form').submit(() => {
-        var message = {
-          author: 'Anon',
-          content: $('.form-control').val()
-        }
-
-        axios.post('/chats', message)
-          .then(res => {
-            console.log(res);
-            socket.emit('chat', message); 
-          });
-
-        $('.form-control').val(''); // Resets form to empty
-        return false;
-      });
-
-      $('#clear').on('click', () => {
-        axios.delete('/chats/clear')
-          .then((res) => {
-            console.log(res);
-          });
-      });
-
-      // Listening for 'chat' event:
-      socket.on('chat', message => {
-        chatStream.push(message);
-        $('#messages').append(`<div class="message"><b>${message.author}</b>: ${message.content}</div>`);
-        console.log(chatStream);
-      });
     });
   </script>
 </body>

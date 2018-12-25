@@ -3,7 +3,8 @@ const router = express.Router();
 
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
-const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const settings = require('../config/settings');
 
 router.route('/')
 	// Get all users
@@ -12,23 +13,22 @@ router.route('/')
 	  	if (err) return next(err);
 	  	return res.status(200).json(users);
 	  });
-	})
-	// Create new user
-	.post((req, res, next) => {
-		bcrypt.hash(req.body.password, 10, (err, hash) => {
-			if (err) return next(err);
-			var newUser = new User({
-				username: req.body.username,
-				password: hash
-			});
-			newUser.save((err, user) => {
-				if (err) return next(err);
-				return res.status(201).send();
-				console.log(user);
-			});
-
-		});
 	});
+
+// Token verification middleware
+router.use('/:id', (req, res, next) => {
+	let token = req.headers['x-access-token'];
+	if (token) {
+		jwt.verify(token, settings.secret, (err, decoded) => {
+			if (err) return res.status(500).json({auth: false, error: 'Token authentication failed.'})
+			res.status(200).send(decoded);
+			next();
+		});
+	} else {
+		res.status(401).json({error: 'Unauthorized'});
+		next();
+	}
+});
 
 router.route('/:id')
 	.get((req, res, next) => {

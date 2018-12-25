@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign In | Hitme Messenge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+  <!-- <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"> -->
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <!-- Socket.IO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+  <!-- Axios -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign In</h1>
+    <form>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" id="username" placeholder="Enter a unique username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" id="password" placeholder="Enter a password">
+      </div>
+      <button class="btn btn-block btn-primary">Sign In</button>
+    </form>
+    <div class="alert alert-danger"></div>
+    <a href="/register">Not registered? Go here</a>
+    <script>
+      $(() => {
+        $('.alert').hide();
+        $('form').on('submit', () => {
+          console.log('Signed in!');
+          axios.post('/auth/login').then(res => {
+            console.log(res);
+          });
+        });
+      });
+      /*
+      TODO:
+      - Frontend login handling
+      - Render home upon successful login
+      - What's up with these tokens?
+
+      */
+    </script>
+  </div>
+</body>
+</html>

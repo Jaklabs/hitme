@@ -31,7 +31,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('chat', function(chat) {
-    console.log('Chat sent: ' + chat.toString());
+    console.log('Chat sent: ' + chat);
     io.emit('chat', chat);
   });
 
