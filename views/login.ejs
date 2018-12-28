@@ -4,6 +4,30 @@
   <title>Sign In | Hitme Messenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0.25rem;
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      /* background-image: url("https://previews.123rf.com/images/antonioguillem/antonioguillem1602/antonioguillem160200005/51824821-group-of-four-friends-talking-and-drinking-sitting-in-a-terrace-at-home.jpg"); */
+      background-color: orange;
+      background-position: top left;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .login-form {
+      background-color: #fff;
+      margin: 1rem;
+      
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+  </style>
   <!-- <link rel="stylesheet" type="text/css" href="/stylesheets/style.css"> -->
   <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -13,16 +37,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div class="login-form container">
     <h1>Sign In</h1>
     <form>
       <div class="form-group">
         <label for="username">Username</label>
-        <input class="form-control" type="text" id="username" placeholder="Enter a unique username">
+        <input class="form-control" type="text" id="username" placeholder="Enter your username">
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input class="form-control" type="password" id="password" placeholder="Enter a password">
+        <input class="form-control" type="password" id="password" placeholder="Enter your password">
       </div>
       <button class="btn btn-block btn-primary">Sign In</button>
     </form>
@@ -32,9 +56,17 @@
       $(() => {
         $('.alert').hide();
         $('form').on('submit', () => {
+          let formData = {username: $('#username').val(), password: $('#password').val()};
+          console.log(formData)
           console.log('Signed in!');
-          axios.post('/auth/login').then(res => {
-            console.log(res);
+          $.ajax({
+            type: "POST",
+            url: '/auth/login',
+            data: formData
+          }).done(data => {
+            console.log("Success!");
+            console.log(data);
+            if (data.error) $('.alert').text(data.error);
           });
         });
       });

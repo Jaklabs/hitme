@@ -3,17 +3,42 @@
 <head>
 	<title>Registration | Hitme Messenger</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" type="text/css" href="/stylesheets/register.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/stylesheets/register.css"> -->
+	
 	<!-- Bootstrap -->
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" rel="stylesheet">
 	<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<!-- Axios -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+	<style>
+			* {
+		  margin: 0.25rem;
+		}
+		html, body {
+		  height: 100%;
+		}
+		body {
+		  /* background-image: url("https://previews.123rf.com/images/antonioguillem/antonioguillem1602/antonioguillem160200005/51824821-group-of-four-friends-talking-and-drinking-sitting-in-a-terrace-at-home.jpg"); */
+		  background-color: lightblue;
+		  background-position: top left;
+		  background-size: cover;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		}
+		.container {
+		  background-color: #fff;
+		  margin: 1rem;
+		  
+		  padding: 1rem;
+		  border-radius: 0.5rem;
+		}
+		</style>
 </head>
 <body>
 	<div class="container">
-		<h1>Sign Up</h1>
+		<h1>Sign Up for HitMe</h1>
 		<form>
 			<div class="form-group">
 				<label for="username">Username</label>
@@ -33,10 +58,10 @@
 					username: $('#username').val(),
 					password: $('#password').val() 
 				};
-				console.log(user);
 				axios.post('/auth/register', user)
 					.then(res => {
-						console.log(res);
+						console.log('Registered!')
+						console.log(res.error);
 					});
 			});
 		});
